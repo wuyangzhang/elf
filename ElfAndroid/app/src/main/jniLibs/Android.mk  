@@ -1,0 +1,5 @@
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE := Elf
+LOCAL_SRC_FILES := libElf.jnilib
+include $(PREBUILT_SHARED_LIBRARY)

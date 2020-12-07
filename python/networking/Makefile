@@ -1,0 +1,2 @@
+g++ -o3 -m64 -shared -std=c++11 -fPIC -I../include -I/usr/local/cuda-10.1/targets/x86_64-linux/include/ -I/home/wuyang/anaconda3/envs/elf/include/python3.7m/ rgbConverter.o example.cpp  -lnvjpeg -L../lib64 -I/usr/local/cuda-10.1/include -ldl -lrt -pthread -lcudart -L/usr/local/cuda-10.1/lib64 -Wl,-rpath=../lib64 -Wl,-rpath=/usr/local/cuda-10.1/lib64 -o py_nvjpeg`/home/wuyang/anaconda3/envs/elf/bin/python3.7m-config --extension-suffix`
+nvcc -std=c++11 -c --compiler-options -fPIC rgbConverter.cu -o rgbConverter.o
