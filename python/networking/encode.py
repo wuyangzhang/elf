@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 import numpy as np
+from pickle import dumps, loads
 
 
 class EncoderBase(ABC):
@@ -31,18 +32,8 @@ class EncoderNVJPEG(EncoderBase):
 
 
 class EncoderPickle(EncoderBase):
-    from pickle import dumps, loads
-
-    def __init__(self):
-        super().__init__()
-
     def encode(self, frame: np.ndarray):
-        return self.dumps(frame)
+        return dumps(frame)
 
     def decode(self, byte_arr) -> np.ndarray:
-        return self.loads(byte_arr)
-
-
-if __name__ == '__main__':
-    x = np.random.rand(1024, 3, 3)
-    a = 1
+        return loads(byte_arr)

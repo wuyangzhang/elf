@@ -9,7 +9,9 @@ def connect_socket(ip, port):
 
 
 def connect_sockets(servers):
-    return [connect_socket(ip, port) for ip, port in servers]
+    return [
+        connect_socket(ip, port) for ip, port in servers
+    ]
 
 
 def bind_socket(port):
@@ -20,5 +22,6 @@ def bind_socket(port):
 
 
 def close_sockets(sockets):
-    for s in sockets:
-        s.close()
+    for socket in sockets:
+        socket.close()
+        socket.context.destroy()

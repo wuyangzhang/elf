@@ -8,25 +8,29 @@ from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
 from config import Config
 
+random.seed(6)
+np.random.seed(6)
+
 
 class VideoLoader(Dataset):
     """This class loads videos from a given root directory"""
 
-    def __init__(self, config: Config):
-        random.seed(6)
-        np.random.seed(6)
-        self.config: Config = config
-        self.file_type: str = ".png"
-        #self.file_type = ".jpg"
-
-        self.video_dir_root = config.video_dir_root
-        self._window_size: int = config.window_size
+    def __init__(
+        self,
+        video_dir_root: str,
+        window_size: int = 1,
+        batch_size: int = 1,
+        file_type: str = ".png",
+    ):
+        self.video_dir_root = video_dir_root
+        self.file_type = file_type
+        self.window_size: int = window_size
         self.white_list = self.gen_white_list()
         self.video_dirs = list()
         self.videos = self.find_video_frames()
         self.prefix = [0] * len(self.videos)
         self.cal_prefix()
-        self.batch_size = 1
+        self.batch_size = batch_size
 
     def __len__(self):
         return self.prefix[-1]
@@ -95,13 +99,13 @@ class VideoLoader(Dataset):
             start_frame_index -= 1
         # handle corner case:
         # if cannot find sufficient preceding video frames, start from the first one
-        if start_frame_index < self._window_size:
-            start_frame_index = self._window_size
+        if start_frame_index < self.window_size:
+            start_frame_index = self.window_size
         return start_frame_index
 
     def find_video_index(self, index):
         """
-        Given a random index, this function locates its associated video
+        Given a random index, this function locates its associated video.
         :param index:
         :return: video index
         """
@@ -152,7 +156,14 @@ class VideoLoader(Dataset):
         valid_sampler = SubsetRandomSampler(val_indices)
 
         if not test:
-            return DataLoader(self, batch_size=self.config.batch_size,
-                              sampler=train_sampler)
-        return DataLoader(self, batch_size=1,
-                          sampler=valid_sampler)
+            return DataLoader(
+                self,
+                batch_size=self.config.batch_size,
+                sampler=train_sampler
+            )
+
+        return DataLoader(
+            self,
+            batch_size=1,
+            sampler=valid_sampler
+        )
