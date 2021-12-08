@@ -64,7 +64,7 @@ Average loss with the evaluation dataset:
 - Attention LSTM: 0.1784 (attn_lstm_checkpoint25.pth)
 
 Here is an example RP prediction result along with its ground truth.
-![Example RP prediction](./assets/example_prediction.jpg)
+![Example RP prediction](./python/assets/example_prediction.jpg)
 
 
 ## 3. Setup Elf with a single server
@@ -214,4 +214,4 @@ python demo/elf_client.py
 ```
 
 ###4.3 Demo effects
-![demo](./assets/demo.gif)
+![demo](./python/assets/demo.gif)
